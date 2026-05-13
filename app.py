@@ -486,7 +486,8 @@ def main() -> None:
         footer {visibility: hidden;}
         header {visibility: hidden;}
         .stAppDeployButton {display: none;}
-        [class*="profileContainer"] {display: none !important;}
+        [class*="_container_gzau3_1"] {display: none !important;}
+        [class*="_profilePreview_gzau3_63"] {display: none !important;}
         [class*="viewerBadge"] {display: none !important;}
         a[href*="streamlit.io/cloud"] {display: none !important;}
         a[href*="share.streamlit.io"] {display: none !important;}
