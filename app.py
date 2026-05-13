@@ -485,13 +485,39 @@ def main() -> None:
         #MainMenu {visibility: hidden;}
         footer {visibility: hidden;}
         header {visibility: hidden;}
-        .stAppDeployButton {display: none;}
-        [class*="_container_gzau3_1"] {display: none !important;}
-        [class*="_profilePreview_gzau3_63"] {display: none !important;}
-        [class*="viewerBadge"] {display: none !important;}
-        a[href*="streamlit.io/cloud"] {display: none !important;}
-        a[href*="share.streamlit.io"] {display: none !important;}
-        a[href*="github.com"][class*="profile"] {display: none !important;}
+        .stAppDeployButton {display: none !important;}
+
+        /* Hide the "Hosted with Streamlit" floating badge (all known class hashes) */
+        .viewerBadge_container__1QSob,
+        .viewerBadge_link__1S137,
+        .viewerBadge_text__1JaDK,
+        .styles_viewerBadge__CvC9N,
+        [class^="viewerBadge_"],
+        [class*=" viewerBadge_"],
+        [class*="_viewerBadge_"],
+        div[class*="viewerBadge"],
+        a[class*="viewerBadge"] {
+            display: none !important;
+            visibility: hidden !important;
+        }
+
+        /* Hide the GitHub profile avatar shown bottom-right on Streamlit Cloud */
+        [class^="_profileContainer"],
+        [class*=" _profileContainer"],
+        [class*="profileContainer"],
+        div[class*="profileContainer"],
+        a[href*="streamlit.io/cloud"],
+        a[href*="share.streamlit.io"],
+        a[href*="github.com/"][target="_blank"][class*="profile"] {
+            display: none !important;
+            visibility: hidden !important;
+        }
+
+        /* Streamlit decoration / status widget */
+        [data-testid="stStatusWidget"],
+        [data-testid="stDecoration"] {
+            display: none !important;
+        }
         </style>
         """
     st.markdown(hide_style, unsafe_allow_html=True)
