@@ -478,6 +478,8 @@ def main() -> None:
     init_state()
     role = sidebar()
 
+    st.set_page_config(menu_items=None)
+
     st.markdown("""
         <style>
         [data-testid="stWidgetLabel"] p {
