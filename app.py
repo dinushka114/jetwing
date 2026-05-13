@@ -485,6 +485,7 @@ def main() -> None:
         #MainMenu {visibility: hidden;}
         footer {visibility: hidden;}
         header {visibility: hidden;}
+        ._profileContainer_gzau3_53 {visibiloty: hidden;}
         </style>
         """
     st.markdown(hide_style, unsafe_allow_html=True)
