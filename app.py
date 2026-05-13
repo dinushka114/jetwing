@@ -485,22 +485,18 @@ def main() -> None:
         #MainMenu {visibility: hidden;}
         footer {visibility: hidden;}
         header {visibility: hidden;}
-        ._profileContainer_gzau3_53 {visibiloty: hidden;}
+        .stAppDeployButton {display: none;}
+        [class*="profileContainer"] {display: none !important;}
+        [class*="viewerBadge"] {display: none !important;}
+        a[href*="streamlit.io/cloud"] {display: none !important;}
+        a[href*="share.streamlit.io"] {display: none !important;}
+        a[href*="github.com"][class*="profile"] {display: none !important;}
         </style>
         """
     st.markdown(hide_style, unsafe_allow_html=True)
 
     st.image("main-logo.png")
     st.title("Voucher Issue Resolution System")
-
-    st.markdown("""
-    <style>
-    /* Hide the GitHub icon and Fork button only */
-    .stAppDeployButton {
-        display: none;
-    }
-    </style>
-    """, unsafe_allow_html=True)
     
     # st.markdown(
     #     "_AI-powered workflow automation to eliminate manual email-based issue "
