@@ -6,7 +6,7 @@ import uuid
 
 st.set_page_config(
     page_title="Jetwing | Voucher Issue Resolution System",
-    page_icon="🟣",
+    page_icon="✈️",
     layout="wide",
     initial_sidebar_state="expanded",
 )
@@ -163,11 +163,11 @@ def tickets_df() -> pd.DataFrame:
 
 
 def finance_logging_view() -> None:
-    st.header("Issue Logging — Finance / Operations")
-    st.caption(
-        "Log voucher discrepancies through this structured form instead of email. "
-        "Smart Assignment routes tickets automatically based on tour number."
-    )
+    st.header("Issue Logging")
+    # st.caption(
+    #     "Log voucher discrepancies through this structured form instead of email. "
+    #     "Smart Assignment routes tickets automatically based on tour number."
+    # )
 
     with st.form("ticket_form", clear_on_submit=True):
         col1, col2 = st.columns(2)
@@ -261,8 +261,8 @@ def finance_logging_view() -> None:
 
 
 def executive_view() -> None:
-    st.header("Tour Executive — Resolution Workflow")
-    st.caption("Open → In Progress → Resolved. Add comments for transparency.")
+    st.header("Tour Executive")
+    # st.caption("Open → In Progress → Resolved. Add comments for transparency.")
 
     all_execs = sorted({t["executive"] for t in st.session_state.tickets})
     me = st.selectbox("Acting as", all_execs)
@@ -337,7 +337,7 @@ def executive_view() -> None:
 
 def management_dashboard() -> None:
     st.header("Management Dashboard")
-    st.caption("Real-time visibility, search & filter, and full audit trail.")
+    # st.caption("Real-time visibility, search & filter, and full audit trail.")
 
     df_raw = pd.DataFrame(st.session_state.tickets)
 
@@ -449,7 +449,7 @@ def management_dashboard() -> None:
 
 def sidebar() -> str:
     with st.sidebar:
-        st.markdown("##Voucher Issue Resolution")
+        st.markdown("Voucher Issue Resolution")
         st.caption("Jetwing Air · POC by Purple Software")
         st.divider()
 
@@ -478,7 +478,21 @@ def main() -> None:
     init_state()
     role = sidebar()
 
+    st.markdown("""
+        <style>
+        [data-testid="stWidgetLabel"] p {
+            margin-bottom: 0px;
+            padding-bottom: 0px;
+        }
+        [data-testid="stVerticalBlock"] > div:has(div[data-testid="stWidgetLabel"]) {
+            margin-top: -10px;
+        }
+        </style>
+    """, unsafe_allow_html=True)
+
+    st.image("main-logo.png")
     st.title("Voucher Issue Resolution System")
+    
     # st.markdown(
     #     "_AI-powered workflow automation to eliminate manual email-based issue "
     #     "handling — full visibility, tracking and accountability._"
