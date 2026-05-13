@@ -163,7 +163,7 @@ def tickets_df() -> pd.DataFrame:
 
 
 def finance_logging_view() -> None:
-    st.header("📥 Issue Logging — Finance / Operations")
+    st.header("Issue Logging — Finance / Operations")
     st.caption(
         "Log voucher discrepancies through this structured form instead of email. "
         "Smart Assignment routes tickets automatically based on tour number."
@@ -177,7 +177,7 @@ def finance_logging_view() -> None:
         with col2:
             voucher = st.text_input("Voucher Number", placeholder="e.g. V-5541")
             preview = (
-                f"➡️  Will be assigned to **{assign_executive(tour)}**"
+                f"Will be assigned to **{assign_executive(tour)}**"
                 if tour
                 else "Enter a Tour Number to preview the assignee."
             )
@@ -189,7 +189,7 @@ def finance_logging_view() -> None:
             height=120,
         )
 
-        submitted = st.form_submit_button("🎫 Create Ticket", type="primary")
+        submitted = st.form_submit_button("Create Ticket", type="primary")
 
         if submitted:
             if not tour or not voucher or not desc:
@@ -217,11 +217,11 @@ def finance_logging_view() -> None:
                     f"Created {ticket_id} ({tour.upper()} / {voucher.upper()}) → {executive}",
                 )
                 st.success(
-                    f"✅ Ticket **{ticket_id}** created and auto-assigned to **{executive}**."
+                    f"Ticket **{ticket_id}** created and auto-assigned to **{executive}**."
                 )
 
     st.divider()
-    st.subheader("🔎 Verification & Closure")
+    st.subheader("Verification & Closure")
     st.caption("Review resolved tickets and mark them as Closed or Reopen.")
 
     resolved = [t for t in st.session_state.tickets if t["status"] == "Resolved"]
@@ -245,14 +245,14 @@ def finance_logging_view() -> None:
             )
             c1, c2, _ = st.columns([1, 1, 4])
             with c1:
-                if st.button("✅ Close", key=f"close_{t['id']}", type="primary"):
+                if st.button("Close", key=f"close_{t['id']}", type="primary"):
                     update_ticket(t["id"], status="Closed")
                     if note:
                         add_comment(t["id"], "Finance", f"[Closed] {note}")
                     log_audit("Finance", f"Closed {t['id']}")
                     st.rerun()
             with c2:
-                if st.button("🔁 Reopen", key=f"reopen_{t['id']}"):
+                if st.button("Reopen", key=f"reopen_{t['id']}"):
                     update_ticket(t["id"], status="Reopened")
                     reason = note or "Issue persists — please re-investigate."
                     add_comment(t["id"], "Finance", f"[Reopened] {reason}")
@@ -261,11 +261,11 @@ def finance_logging_view() -> None:
 
 
 def executive_view() -> None:
-    st.header("🧑‍💼 Tour Executive — Resolution Workflow")
+    st.header("Tour Executive — Resolution Workflow")
     st.caption("Open → In Progress → Resolved. Add comments for transparency.")
 
     all_execs = sorted({t["executive"] for t in st.session_state.tickets})
-    me = st.selectbox("👤 Acting as", all_execs)
+    me = st.selectbox("Acting as", all_execs)
 
     actionable_statuses = ["Open", "In Progress", "Reopened"]
     mine = [
@@ -275,14 +275,14 @@ def executive_view() -> None:
     ]
 
     if not mine:
-        st.success("🎉 No pending tickets — you're all caught up.")
+        st.success("No pending tickets — you're all caught up.")
         return
 
     # Dashboard-style "notification" banner (Section 4.3)
     high_priority = [t for t in mine if t["priority"] in ("High", "Critical")]
     if high_priority:
         st.warning(
-            f"🔔 You have **{len(high_priority)}** high-priority ticket(s) requiring attention."
+            f"You have **{len(high_priority)}** high-priority ticket(s) requiring attention."
         )
 
     st.write(f"### Assigned to {me} ({len(mine)} pending)")
@@ -310,14 +310,14 @@ def executive_view() -> None:
             c1, c2, c3 = st.columns(3)
             with c1:
                 if t["status"] in ("Open", "Reopened"):
-                    if st.button("▶️ Start (In Progress)", key=f"prog_{t['id']}"):
+                    if st.button("Start (In Progress)", key=f"prog_{t['id']}"):
                         update_ticket(t["id"], status="In Progress")
                         if new_comment:
                             add_comment(t["id"], me, new_comment)
                         log_audit(me, f"Moved {t['id']} to In Progress")
                         st.rerun()
             with c2:
-                if st.button("✅ Mark Resolved", key=f"res_{t['id']}", type="primary"):
+                if st.button("Mark Resolved", key=f"res_{t['id']}", type="primary"):
                     update_ticket(t["id"], status="Resolved")
                     if new_comment:
                         add_comment(t["id"], me, new_comment)
@@ -326,7 +326,7 @@ def executive_view() -> None:
                     log_audit(me, f"Resolved {t['id']}")
                     st.rerun()
             with c3:
-                if st.button("💬 Add comment only", key=f"cmtonly_{t['id']}"):
+                if st.button("Add comment only", key=f"cmtonly_{t['id']}"):
                     if new_comment:
                         add_comment(t["id"], me, new_comment)
                         log_audit(me, f"Commented on {t['id']}")
@@ -336,12 +336,11 @@ def executive_view() -> None:
 
 
 def management_dashboard() -> None:
-    st.header("📊 Management Dashboard")
+    st.header("Management Dashboard")
     st.caption("Real-time visibility, search & filter, and full audit trail.")
 
     df_raw = pd.DataFrame(st.session_state.tickets)
 
-    # ---- KPIs ----
     total = len(df_raw)
     open_n = (df_raw["status"] == "Open").sum() if total else 0
     progress_n = (df_raw["status"] == "In Progress").sum() if total else 0
@@ -357,7 +356,6 @@ def management_dashboard() -> None:
 
     st.divider()
 
-    # ---- Charts ----
     c1, c2 = st.columns(2)
     with c1:
         st.subheader("Tickets by Status")
@@ -368,7 +366,7 @@ def management_dashboard() -> None:
 
     st.divider()
 
-    st.subheader("🔎 Search & Filter")
+    st.subheader("Search & Filter")
     f1, f2, f3, f4 = st.columns(4)
     with f1:
         tour_filter = st.text_input("Tour contains")
@@ -393,7 +391,7 @@ def management_dashboard() -> None:
     if status_filter:
         filtered = filtered[filtered["status"].isin(status_filter)]
 
-    st.subheader("📋 Real-Time Ticket Table")
+    st.subheader("Real-Time Ticket Table")
     display = filtered.assign(
         Status=filtered["status"].map(lambda s: f"{STATUS_COLORS.get(s,'')} {s}"),
         Created=filtered["created"].dt.strftime("%Y-%m-%d %H:%M"),
@@ -426,7 +424,7 @@ def management_dashboard() -> None:
 
     csv = display.to_csv(index=False).encode("utf-8")
     st.download_button(
-        "⬇️ Export filtered view (CSV)",
+        "Export filtered view (CSV)",
         csv,
         "voucher_tickets.csv",
         "text/csv",
@@ -434,7 +432,7 @@ def management_dashboard() -> None:
 
     st.divider()
 
-    st.subheader("📜 Full Audit Trail")
+    st.subheader("Full Audit Trail")
     audit_df = pd.DataFrame(st.session_state.audit)
     if not audit_df.empty:
         audit_df["at"] = audit_df["at"].dt.strftime("%Y-%m-%d %H:%M:%S")
@@ -451,12 +449,12 @@ def management_dashboard() -> None:
 
 def sidebar() -> str:
     with st.sidebar:
-        st.markdown("## 🟣 Voucher Issue Resolution")
-        # st.caption("Jetwing Air · POC by Purple Software")
+        st.markdown("##Voucher Issue Resolution")
+        st.caption("Jetwing Air · POC by Purple Software")
         st.divider()
 
         role = st.radio(
-            "👥 Select Role",
+            "Select Role",
             ["Finance / Operations", "Tour Executive", "Management"],
             help="Switch perspectives to walk through the full workflow.",
         )
@@ -468,7 +466,7 @@ def sidebar() -> str:
         st.markdown(f"- *(others)* → **{DEFAULT_EXECUTIVE}**")
 
         st.divider()
-        if st.button("🔄 Reset demo data"):
+        if st.button("Reset demo data"):
             for k in ("tickets", "audit", "counter"):
                 st.session_state.pop(k, None)
             st.rerun()
@@ -481,11 +479,12 @@ def main() -> None:
     role = sidebar()
 
     st.title("Voucher Issue Resolution System")
-    st.markdown(
-        "_AI-powered workflow automation to eliminate manual email-based issue "
-        "handling — full visibility, tracking and accountability._"
-    )
+    # st.markdown(
+    #     "_AI-powered workflow automation to eliminate manual email-based issue "
+    #     "handling — full visibility, tracking and accountability._"
+    # )
     st.divider()
+    
 
     if role == "Finance / Operations":
         finance_logging_view()
