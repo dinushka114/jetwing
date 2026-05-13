@@ -222,7 +222,7 @@ def finance_logging_view() -> None:
 
     st.divider()
     st.subheader("Verification & Closure")
-    st.caption("Review resolved tickets and mark them as Closed or Reopen.")
+    # st.caption("Review resolved tickets and mark them as Closed or Reopen.")
 
     resolved = [t for t in st.session_state.tickets if t["status"] == "Resolved"]
     if not resolved:
