@@ -6,7 +6,6 @@ import uuid
 
 st.set_page_config(
     page_title="Jetwing | Voucher Issue Resolution System",
-    page_icon="✈️",
     layout="wide",
     initial_sidebar_state="expanded",
 )
