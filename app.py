@@ -519,8 +519,64 @@ def main() -> None:
             display: none !important;
         }
         </style>
+
+        <script>
+        (function () {
+            const hide = () => {
+                document.querySelectorAll('a').forEach(a => {
+                    const href = (a.getAttribute('href') || '').toLowerCase();
+                    if (
+                        href.includes('streamlit.io') ||
+                        href.includes('share.streamlit.io') ||
+                        (href.includes('github.com/') && a.querySelector('img'))
+                    ) {
+                        let el = a;
+                        for (let i = 0; i < 4 && el && el.parentElement; i++) {
+                            el = el.parentElement;
+                        }
+                        (el || a).style.display = 'none';
+                    }
+                });
+                document.querySelectorAll('[class*="viewerBadge"], [class*="profileContainer"]').forEach(el => {
+                    el.style.display = 'none';
+                });
+            };
+            hide();
+            const obs = new MutationObserver(hide);
+            obs.observe(document.body, { childList: true, subtree: true });
+        })();
+        </script>
         """
     st.markdown(hide_style, unsafe_allow_html=True)
+    st.components.v1.html(
+        """
+        <script>
+        const root = window.parent.document;
+        const hide = () => {
+            root.querySelectorAll('a').forEach(a => {
+                const href = (a.getAttribute('href') || '').toLowerCase();
+                if (
+                    href.includes('streamlit.io') ||
+                    href.includes('share.streamlit.io') ||
+                    (href.includes('github.com/') && a.querySelector('img'))
+                ) {
+                    let el = a;
+                    for (let i = 0; i < 4 && el && el.parentElement; i++) {
+                        el = el.parentElement;
+                    }
+                    (el || a).style.display = 'none';
+                }
+            });
+            root.querySelectorAll('[class*="viewerBadge"], [class*="profileContainer"]').forEach(el => {
+                el.style.display = 'none';
+            });
+        };
+        hide();
+        new MutationObserver(hide).observe(root.body, { childList: true, subtree: true });
+        </script>
+        """,
+        height=0,
+    )
 
     st.image("main-logo.png")
     st.title("Voucher Issue Resolution System")
