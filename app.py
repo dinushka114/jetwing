@@ -492,6 +492,15 @@ def main() -> None:
 
     st.image("main-logo.png")
     st.title("Voucher Issue Resolution System")
+
+    st.markdown("""
+    <style>
+    /* Hide the GitHub icon and Fork button only */
+    .stAppDeployButton {
+        display: none;
+    }
+    </style>
+    """, unsafe_allow_html=True)
     
     # st.markdown(
     #     "_AI-powered workflow automation to eliminate manual email-based issue "
