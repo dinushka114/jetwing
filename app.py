@@ -480,17 +480,14 @@ def main() -> None:
 
     st.set_page_config(menu_items=None)
 
-    st.markdown("""
+    hide_style = """
         <style>
-        [data-testid="stWidgetLabel"] p {
-            margin-bottom: 0px;
-            padding-bottom: 0px;
-        }
-        [data-testid="stVerticalBlock"] > div:has(div[data-testid="stWidgetLabel"]) {
-            margin-top: -10px;
-        }
+        #MainMenu {visibility: hidden;}
+        footer {visibility: hidden;}
+        header {visibility: hidden;}
         </style>
-    """, unsafe_allow_html=True)
+        """
+    st.markdown(hide_style, unsafe_allow_html=True)
 
     st.image("main-logo.png")
     st.title("Voucher Issue Resolution System")
